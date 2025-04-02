@@ -974,5 +974,84 @@ class HomeControllerTest {
             System.out.println(movie.getTitle());
         }
     }
+    @Test
+    void test_get_Most_Popular_Actor(){
+        //given
+        homeController.initializeState();
+
+        // when
+        String mostPopularActor = homeController.getMostPopularActor(homeController.allMovies);
+
+        // then
+        assertEquals("Leonardo DiCaprio", mostPopularActor);
+    }
+
+
+    @Test
+    void test_get_Longest_Movie_Title(){
+        //given
+        homeController.initializeState();
+
+        //when
+        int longestMovieTitle = homeController.getLongestMovieTitle(homeController.allMovies);
+
+        //then
+        assertEquals(201,longestMovieTitle);
+    }
+
+    @Test
+    void test_count_Movies_From(){
+        //given
+        homeController.initializeState();
+
+        //when
+        long countMovies =  homeController.countMoviesFrom(homeController.allMovies,"Robert Zemeckis");
+
+        //then
+        assertEquals(1,countMovies);
+
+    }
+
+    @Test
+    void test_get_Movies_Between_StartYear_And_Endyear(){
+        //given
+        homeController.initializeState();
+
+
+        List<Movie> movies = Arrays.asList(
+                new Movie("Movie 1", 1999),
+                new Movie("Movie 2", 2005),
+                new Movie("Movie 3", 2010),
+                new Movie("Movie 4", 2015),
+                new Movie("Movie 5", 2020)
+        );
+        int startYear = 2000;
+        int endYear = 2015;
+
+        // when
+        List<Movie> result = homeController.getMoviesBetweenYears(movies, startYear, endYear);
+
+        // Then
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    void test_if_initialization_of_initializeMovies_is_correct(){
+        List<Movie> movies = Movie.initializeMovies();
+
+        assertFalse(movies.isEmpty(), "The list is not supposed to be empty.");
+
+        for (Movie movie : movies) {
+            assertFalse(movie.getTitle().isEmpty(), "Title should not be empty.");
+
+            assertFalse(movie.getDescription().isEmpty(), "Description should not be empty.");
+
+            assertFalse(movie.getGenres().isEmpty(), "Genre List should not be empty.");
+
+            assertNotNull(movie.getReleaseYear(), "Release year should not be null.");
+
+            assertNotNull(movie.getRating(), "Rating should not be null.");
+        }
+    }
 
 }
