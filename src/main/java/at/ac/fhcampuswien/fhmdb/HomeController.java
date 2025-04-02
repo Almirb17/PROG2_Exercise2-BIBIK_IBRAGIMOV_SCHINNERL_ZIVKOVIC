@@ -190,6 +190,16 @@ public class HomeController implements Initializable {
         return mostPopularActor;
     }
 
+    public int getLongestMovieTitle(List<Movie> movies)
+    {
+        int longestTitleLength = movies.stream()
+                .map(Movie::getLengthInMinutes)
+                .max(Integer::compareTo)
+                .orElse(0);
+
+        return longestTitleLength;
+    }
+
 
 
 
