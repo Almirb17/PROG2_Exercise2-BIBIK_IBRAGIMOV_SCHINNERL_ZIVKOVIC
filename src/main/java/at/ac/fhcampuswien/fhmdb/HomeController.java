@@ -200,6 +200,24 @@ public class HomeController implements Initializable {
         return longestTitleLength;
     }
 
+    public long countMoviesFrom(List<Movie> movies, String director)
+    {
+        long countedMovs = movies.stream()
+                .filter(movie -> movie.getDirectors().contains(director))
+                .count();
+
+        return countedMovs;
+    }
+
+    List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear)
+    {
+        List<Movie> mvs = movies.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
+                .collect(Collectors.toList());
+
+        return mvs;
+    }
+
 
 
 
