@@ -176,6 +176,22 @@ public class HomeController implements Initializable {
         sortMovies();
     }
 
+    public String getMostPopularActor(List<Movie> movies)
+    {
+        Map<String, Long> actorCount = movies.stream()
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(actor -> actor, Collectors.counting()));
+
+        String mostPopularActor = actorCount.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("Kein Schauspieler gefunden");
+
+        return mostPopularActor;
+    }
+
+
+
 
 
 }
