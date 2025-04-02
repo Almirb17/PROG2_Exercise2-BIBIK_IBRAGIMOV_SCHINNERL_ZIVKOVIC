@@ -957,4 +957,22 @@ class HomeControllerTest {
         assertEquals(homeController.allMovies, homeController.observableMovies);
     }
 
+
+    @Test
+    void test_if_Movies_Between_StartYear_And_Endyear() {
+        // given
+        homeController.initializeState();
+        int startYear = 1980;
+        int endYear = 2001;
+
+        // when
+        List<Movie> actual = homeController.getMoviesBetweenYears(homeController.allMovies, startYear, endYear);
+
+        // then
+        for (Movie movie : actual) {
+            assertTrue(movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear);
+            System.out.println(movie.getTitle());
+        }
+    }
+
 }
