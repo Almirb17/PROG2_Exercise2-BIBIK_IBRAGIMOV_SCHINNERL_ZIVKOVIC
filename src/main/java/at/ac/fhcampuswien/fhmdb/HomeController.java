@@ -99,9 +99,8 @@ public class HomeController implements Initializable {
             sortMovies(SortedState.DESCENDING);
         }
     }
-    // sort movies based on sortedState
-    // by default sorted state is NONE
-    // afterwards it switches between ascending and descending
+
+
     public void sortMovies(SortedState sortDirection) {
         if (sortDirection == SortedState.ASCENDING) {
             observableMovies.sort(Comparator.comparing(Movie::getTitle));
@@ -158,7 +157,19 @@ public class HomeController implements Initializable {
     }
 
     public void searchBtnClicked(ActionEvent actionEvent) {
+        String searchQuery = searchField.getText().trim().toLowerCase();
 
+        Object genre = genreComboBox.getSelectionModel().getSelectedItem();
+        Object year = releaseYearComboBox.getSelectionModel().getSelectedItem();
+        Object rating = ratingComboBox.getSelectionModel().getSelectedItem();
+
+        observableMovies.clear();
+        observableMovies.addAll(movieAPI.getMovies(
+                searchQuery,
+                genre != null && !Objects.equals(genre.toString(), "No filter") ? genre.toString() : null,
+                year != null && !Objects.equals(year.toString(), "No filter") ? (Integer) year : null,
+                rating != null && !Objects.equals(rating.toString(), "No filter") ? Double.parseDouble((String) rating) : null));
+        sortMovies(sortedState);
     }
 
     public void sortBtnClicked(ActionEvent actionEvent) {
