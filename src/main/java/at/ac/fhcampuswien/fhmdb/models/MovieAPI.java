@@ -47,4 +47,38 @@ public class MovieAPI {
 
         return urlBuilder.toString();
     }
+
+    public List<Movie> getMovies(String userInput, String genre, Integer releaseYear, Double ratingFrom) {
+        try {
+            String urlString = buildUrl(userInput, genre, releaseYear, ratingFrom);
+            URL url = new URL(urlString);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String inputLine;
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // JSON-Parsing mit Gson
+                Gson gson = new Gson();
+                Type movieListType = new TypeToken<List<Movie>>() {
+                }.getType();
+                return gson.fromJson(response.toString(), movieListType);
+            } else {
+                System.out.println("Error: Unable to fetch movies. Response code: " + responseCode);
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
 }
