@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
@@ -15,32 +16,39 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
     @FXML
-    public JFXButton searchBtn;
+    private JFXButton searchBtn;
 
     @FXML
-    public TextField searchField;
+    private TextField searchField;
 
     @FXML
-    public JFXListView movieListView;
+    private JFXListView movieListView;
 
     @FXML
-    public JFXComboBox genreComboBox;
+    private JFXComboBox genreComboBox;
 
     @FXML
-    public JFXButton sortBtn;
+    private JFXButton sortBtn;
 
+    @FXML
+    private JFXComboBox releaseYearComboBox;
+    @FXML
+    private JFXComboBox ratingComboBox;
     public List<Movie> allMovies;
+    public List<String> ratings = List.of("0","1", "2", "3", "4", "5", "6", "7", "8", "9","10");
+
 
     protected ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
+    private final ObservableList<String> observableRating = FXCollections.observableArrayList(ratings);
 
     protected SortedState sortedState;
+
+    protected MovieAPI movieAPI;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,6 +61,9 @@ public class HomeController implements Initializable {
         observableMovies.clear();
         observableMovies.addAll(allMovies); // add all movies to the observable list
         sortedState = SortedState.NONE;
+        movieAPI = new MovieAPI();
+
+
     }
 
     public void initializeLayout() {
@@ -63,6 +74,22 @@ public class HomeController implements Initializable {
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
         genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
         genreComboBox.setPromptText("Filter by Genre");
+
+        releaseYearComboBox.setPromptText("Filter by Release Year");
+        releaseYearComboBox.getItems().add("No filter");
+        releaseYearComboBox.getItems().addAll(getAvailableYears());
+
+        ratingComboBox.setPromptText("Filter by Rating");
+        ratingComboBox.getItems().add("No filter");
+        ratingComboBox.getItems().addAll(observableRating);
+    }
+
+    public List<Integer> getAvailableYears() {
+        return allMovies.stream()
+                .map(Movie::getReleaseYear)
+                .distinct()
+                .sorted()
+                .toList();
     }
 
     public void sortMovies(){
@@ -84,6 +111,7 @@ public class HomeController implements Initializable {
             sortedState = SortedState.DESCENDING;
         }
     }
+
 
     public List<Movie> filterByQuery(List<Movie> movies, String query){
         if(query == null || query.isEmpty()) return movies;
@@ -130,14 +158,13 @@ public class HomeController implements Initializable {
     }
 
     public void searchBtnClicked(ActionEvent actionEvent) {
-        String searchQuery = searchField.getText().trim().toLowerCase();
-        Object genre = genreComboBox.getSelectionModel().getSelectedItem();
 
-        applyAllFilters(searchQuery, genre);
-        sortMovies(sortedState);
     }
 
     public void sortBtnClicked(ActionEvent actionEvent) {
         sortMovies();
     }
+
+
+
 }
