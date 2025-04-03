@@ -34,31 +34,50 @@ class HomeControllerTest {
         homeController.sortMovies();
 
         // then
-        List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
+        List<Movie> expected = Arrays.asList(new Movie("2feb8100-3f96-494c-9ded-eb405f43dbfb", // ID
+                        "12 Angry Men", // Title
+                        "A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence.", // Description
+                        Arrays.asList(Genre.DRAMA), // Genres
+                        1957, // Release Year
+                        "https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVkNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_FMjpg_UX1000_.jpg", // Image URL
+                        96, // Length in minutes
+                        Arrays.asList("Sidney Lumet"), // Directors
+                        Arrays.asList("Reginald Rose"), // Writers
+                        Arrays.asList("Henry Fonda", "Lee J. Cobb", "Martin Balsam"), // Main Cast
+                        8.9 // Rating
+                ),
 
+
+                new Movie("c6bfb760-9f95-4966-9f9e-c89a06702bac", // ID
+                        "Avatar", // Title
+                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.", // Description
+                        Arrays.asList(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION), // Genres
+                        2009, // Release Year
+                        "https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UX1000_.jpg", // Image URL
+                        162, // Length in minutes
+                        Arrays.asList("James Cameron"), // Directors
+                        Arrays.asList("James Cameron"), // Writers
+                        Arrays.asList("Sam Worthington", "Zoe Saldana", "Sigourney Weaver"), // Main Cast
+                        7.8 // Rating
+                ),
+
+
+                new Movie("d42ed31e-98a9-4c56-b104-5ae68b9dc970", // ID
+                        "City of God", // Title
+                        "Two boys growing up in a violent neighborhood of Rio de Janeiro take different paths: one becomes a photographer, the other a drug dealer.", // Description
+                        Arrays.asList(Genre.CRIME, Genre.DRAMA), // Genres
+                        2002, // Release Year
+                        "https://m.media-amazon.com/images/M/MV5BMGU5OWEwZDItNmNkMC00NzZmLTk1YTctNzVhZTJjM2NlZTVmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg", // Image URL
+                        130, // Length in minutes
+                        Arrays.asList("Fernando Meirelles", "Kátia Lund"), // Directors
+                        Arrays.asList("Paulo Lins", "Bráulio Mantovani"), // Writers
+                        Arrays.asList("Alexandre Rodrigues", "Matheus Nachtergaele", "Leandro Firmino"), // Main Cast
+                        8.6 // Rating
+                )
         );
+        List<Movie> actualFirstThreeMovies = homeController.observableMovies.subList(0, 3);
 
-        assertEquals(expected, homeController.observableMovies);
+        assertEquals(expected, actualFirstThreeMovies);
 
     }
 
