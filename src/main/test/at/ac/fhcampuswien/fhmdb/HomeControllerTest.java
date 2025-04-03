@@ -992,7 +992,12 @@ class HomeControllerTest {
         int longestMovieTitle = homeController.getLongestMovieTitle(homeController.allMovies);
 
         //then
-        assertEquals(201,longestMovieTitle);
+        int expectedTitleLength = homeController.allMovies.stream()
+                .map(movie -> movie.getTitle().length())
+                .max(Integer::compareTo)
+                .orElse(0);
+
+        assertEquals(expectedTitleLength, longestMovieTitle);
     }
 
     @Test
